@@ -1,0 +1,109 @@
+[
+  {
+    "capture-command-output": true,
+    "capture-command-output-on-error": true,
+    "command-working-directory": "",
+    "execute-command": "/hooks/protoconf-insert-script.sh",
+    "incoming-payload-content-type": "",
+    "json-string-parameters": [],
+    "pass-arguments-to-command": [
+      {
+        "base64decode": false,
+        "envname": "",
+        "name": "head_commit.id",
+        "source": "payload"
+      },
+      {
+        "base64decode": false,
+        "envname": "",
+        "name": "pusher.name",
+        "source": "payload"
+      },
+      {
+        "base64decode": false,
+        "envname": "",
+        "name": "pusher.email",
+        "source": "payload"
+      },
+      {
+        "base64decode": false,
+        "envname": "",
+        "name": "repository.clone_url",
+        "source": "payload"
+      }
+    ],
+    "pass-environment-to-command": [
+      {
+        "base64decode": false,
+        "envname": "BEFORE_COMMIT",
+        "name": "before",
+        "source": "payload"
+      },
+      {
+        "base64decode": false,
+        "envname": "AFTER_COMMIT",
+        "name": "after",
+        "source": "payload"
+      },
+      {
+        "base64decode": false,
+        "envname": "GIT_REPO",
+        "name": "repository.clone_url",
+        "source": "payload"
+      }
+    ],
+    "response-headers": [
+      {
+        "name": "Access-Control-Allow-Origin",
+        "value": "*"
+      }
+    ],
+    "response-message": "OK",
+    "success-http-response-code": 0,
+    "trigger-rule": {
+      "And": [
+        {
+          "And": [],
+          "match": {
+            "IPRange": "",
+            "parameter": {
+              "base64decode": false,
+              "envname": "",
+              "name": "X-Hub-Signature",
+              "source": "header"
+            },
+            "regex": "",
+            "secret": "{{ getenv "GITHUB_WEBHOOK_SECRET"}}",
+            "type": "payload-hash-sha1",
+            "value": ""
+          },
+          "not": null,
+          "or": []
+        },
+        {
+          "And": [],
+          "match": {
+            "IPRange": "",
+            "parameter": {
+              "base64decode": false,
+              "envname": "",
+              "name": "ref",
+              "source": "payload"
+            },
+            "regex": "",
+            "secret": "",
+            "type": "value",
+            "value": "refs/heads/main"
+          },
+          "not": null,
+          "or": []
+        }
+      ],
+      "match": null,
+      "not": null,
+      "or": []
+    },
+    "trigger-rule-mismatch-http-response-code": 0,
+    "id": "protoconf-insert"
+  }
+]
